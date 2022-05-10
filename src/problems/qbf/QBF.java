@@ -92,6 +92,14 @@ public class QBF implements Evaluator<Integer> {
 	public Integer getDomainSize() {
 		return size;
 	}
+	
+	public Integer getWeight(int i) {
+		return weights[i];
+	}
+	
+	public Integer getMaxWeight() {
+		return W;
+	}
 
 	/**
 	 * {@inheritDoc} In the case of a QBF, the evaluation correspond to
@@ -106,10 +114,22 @@ public class QBF implements Evaluator<Integer> {
 	public Double evaluate(Solution<Integer> sol) {
 
 		setVariables(sol);
+		sol.weight = evalueateWeightKQBF();
 		return sol.cost = evaluateQBF();
 
 	}
 
+	public Integer evalueateWeightKQBF() {
+
+		Integer sum = 0;
+
+		for (int i = 0; i < size; i++) {
+			sum = (int) (variables[i] * weights[i]);
+		}
+
+		return sum;
+	}
+	
 	/**
 	 * Evaluates a QBF by calculating the matrix multiplication that defines the
 	 * QBF: f(x) = x'.A.x .
