@@ -168,6 +168,8 @@ public class QBF implements Evaluator<Integer> {
 	public Double evaluateInsertionCost(Integer elem, Solution<Integer> sol) {
 
 		setVariables(sol);
+		if (!canBeAdded(elem, sol))
+			return Double.POSITIVE_INFINITY;
 		return evaluateInsertionQBF(elem);
 
 	}
@@ -199,6 +201,8 @@ public class QBF implements Evaluator<Integer> {
 	public Double evaluateRemovalCost(Integer elem, Solution<Integer> sol) {
 
 		setVariables(sol);
+		if (!canBeAdded(elem, sol))
+			return Double.POSITIVE_INFINITY;
 		return evaluateRemovalQBF(elem);
 
 	}
