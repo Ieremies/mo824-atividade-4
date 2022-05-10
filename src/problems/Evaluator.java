@@ -79,4 +79,6 @@ public interface Evaluator<E> {
 
 	public abstract Integer getWeight(int i);
 
+	public abstract boolean canBeAdded(Integer bestCandIn, Solution<Integer> sol);
+
 }

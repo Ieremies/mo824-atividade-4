@@ -119,12 +119,16 @@ public class QBF implements Evaluator<Integer> {
 
 	}
 
+	public Boolean canBeAdded(Integer elem, Solution<Integer> sol) {
+		return (sol.weight + weights[elem] <= W);
+	}
+
 	public Integer evalueateWeightKQBF() {
 
 		Integer sum = 0;
 
 		for (int i = 0; i < size; i++) {
-			sum = (int) (variables[i] * weights[i]);
+			sum += (int) (variables[i] * weights[i]);
 		}
 
 		return sum;
