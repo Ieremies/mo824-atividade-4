@@ -31,16 +31,6 @@ public class QBF implements Evaluator<Integer> {
 	public final Integer size;
 
 	/**
-	 * Maximum weight.
-	 */
-	public Integer W;
-	
-	/**
-	 * The array of weights for the domain.
-	 */
-	public Integer[] weights;
-	
-	/**
 	 * The array of numbers representing the domain.
 	 */
 	public final Double[] variables;
@@ -288,14 +278,6 @@ public class QBF implements Evaluator<Integer> {
 
 		stok.nextToken();
 		Integer _size = (int) stok.nval;
-		
-		W = (int) stok.nval;
-		weights = new Integer[_size];
-		for (int i = 0; i < _size; i++) {
-			stok.nextToken();
-			weights[i] = (int) stok.nval;
-		}
-		
 		A = new Double[_size][_size];
 
 		for (int i = 0; i < _size; i++) {
