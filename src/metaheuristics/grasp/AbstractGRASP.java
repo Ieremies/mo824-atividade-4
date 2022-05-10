@@ -179,6 +179,8 @@ public abstract class AbstractGRASP<E> {
 			}
 
 			/* Choose a candidate randomly from the RCL */
+			if (RCL.size() == 0)
+				break;
 			int rndIndex = rng.nextInt(RCL.size());
 			E inCand = RCL.get(rndIndex);
 			CL.remove(inCand);
