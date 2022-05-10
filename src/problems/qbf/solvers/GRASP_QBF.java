@@ -47,11 +47,9 @@ public class GRASP_QBF extends AbstractGRASP<Integer> {
 	public ArrayList<Integer> makeCL() {
 
 		ArrayList<Integer> _CL = new ArrayList<Integer>();
-		Integer max_weight = ObjFunction.getMaxWeight();
 		for (int i = 0; i < ObjFunction.getDomainSize(); i++) {
 			Integer cand = i;
-			Integer weight = ObjFunction.getWeight(i);
-			if (sol == null || sol.weight + weight <= max_weight) {
+			if (sol == null || ObjFunction.canBeAdded(i, sol)) {
 				_CL.add(cand);
 			}
 		}
