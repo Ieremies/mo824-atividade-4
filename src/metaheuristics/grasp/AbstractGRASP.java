@@ -142,6 +142,10 @@ public abstract class AbstractGRASP<E> {
 	 * @return A feasible solution to the problem being minimized.
 	 */
 	public Solution<E> constructiveHeuristic() {
+		return constructiveHeuristic_standart();
+	}
+	
+	public Solution<E> constructiveHeuristic_standart() {
 
 		CL = makeCL();
 		RCL = makeRCL();
@@ -150,6 +154,65 @@ public abstract class AbstractGRASP<E> {
 
 		/* Main loop, which repeats until the stopping criteria is reached. */
 		while (!constructiveStopCriteria()) {
+
+			double maxCost = Double.NEGATIVE_INFINITY, minCost = Double.POSITIVE_INFINITY;
+			cost = ObjFunction.evaluate(sol);
+			updateCL();
+
+			/*
+			 * Explore all candidate elements to enter the solution, saving the
+			 * highest and lowest cost variation achieved by the candidates.
+			 */
+			for (E c : CL) {
+				Double deltaCost = ObjFunction.evaluateInsertionCost(c, sol);
+				if (deltaCost < minCost)
+					minCost = deltaCost;
+				if (deltaCost > maxCost)
+					maxCost = deltaCost;
+			}
+
+			/*
+			 * Among all candidates, insert into the RCL those with the highest
+			 * performance using parameter alpha as threshold.
+			 */
+			for (E c : CL) {
+				Double deltaCost = ObjFunction.evaluateInsertionCost(c, sol);
+				if (deltaCost <= minCost + alpha * (maxCost - minCost)) {
+					RCL.add(c);
+				}
+			}
+
+			/* Choose a candidate randomly from the RCL */
+			if (RCL.size() == 0) // FIXME essa situação nunca deve acontecer!
+				break;
+			int rndIndex = rng.nextInt(RCL.size());
+			E inCand = RCL.get(rndIndex);
+			CL.remove(inCand);
+			sol.add(inCand);
+			ObjFunction.evaluate(sol);
+			RCL.clear();
+
+		}
+
+		return sol;
+	}
+	
+	public Solution<E> constructiveHeuristic_pop() {
+
+		CL = makeCL();
+		Integer porcentage = CL.size() / 3; // 33%
+		Integer i = 0;
+		RCL = makeRCL();
+		sol = createEmptySol();
+		cost = Double.POSITIVE_INFINITY;
+
+		/* Main loop, which repeats until the stopping criteria is reached. */
+		while (!constructiveStopCriteria()) {
+			
+			// POP
+			i += 1;
+			if (porcentage != 0 && i % porcentage == 0)
+				localSearch();
 
 			double maxCost = Double.NEGATIVE_INFINITY, minCost = Double.POSITIVE_INFINITY;
 			cost = ObjFunction.evaluate(sol);
