@@ -93,14 +93,6 @@ public class QBF implements Evaluator<Integer> {
 		return size;
 	}
 	
-	public Integer getWeight(int i) {
-		return weights[i];
-	}
-	
-	public Integer getMaxWeight() {
-		return W;
-	}
-
 	/**
 	 * {@inheritDoc} In the case of a QBF, the evaluation correspond to
 	 * computing a matrix multiplication x'.A.x. A better way to evaluate this

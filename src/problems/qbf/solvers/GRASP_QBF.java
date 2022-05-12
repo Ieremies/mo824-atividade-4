@@ -149,7 +149,7 @@ public class GRASP_QBF extends AbstractGRASP<Integer> {
 					sol.remove(bestCandOut);
 					CL.add(bestCandOut);
 				}
-				if (bestCandIn != null ) {
+				if (bestCandIn != null) {
 					sol.add(bestCandIn);
 					CL.remove(bestCandIn);
 				}
