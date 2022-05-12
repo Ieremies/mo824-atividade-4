@@ -255,7 +255,44 @@ public abstract class AbstractGRASP<E> {
 
 		return sol;
 	}
+	
+	public Solution<E> constructiveHeuristic_randomPlus() {
 
+		CL = makeCL();
+		RCL = makeRCL();
+		sol = createEmptySol();
+		cost = Double.POSITIVE_INFINITY;
+
+		/* Main loop, which repeats until the stopping criteria is reached. */
+		while (!constructiveStopCriteria() && CL.size() > 0) {
+
+			double minCost = Double.POSITIVE_INFINITY;
+			Integer p = 100;
+			E minCand = CL.get(0);
+			cost = ObjFunction.evaluate(sol);
+			updateCL();
+			
+			for (int i = 0; i < CL.size() && i < p; i++)
+				RCL.add(CL.get(rng.nextInt(CL.size())));
+			
+			for (E c : RCL) {
+				Double deltaCost = ObjFunction.evaluateInsertionCost(c, sol);
+				if (deltaCost < minCost) {
+					minCost = deltaCost;
+					minCand = c;
+				}
+			}
+
+			CL.remove(minCand);
+			sol.add(minCand);
+			ObjFunction.evaluate(sol);
+			RCL.clear();
+
+		}
+
+		return sol;
+	}
+	
 	/**
 	 * The GRASP mainframe. It consists of a loop, in which each iteration goes
 	 * through the constructive heuristic and local search. The best solution is
