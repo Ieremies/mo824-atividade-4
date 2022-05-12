@@ -80,7 +80,7 @@ public class GRASP_QBF extends AbstractGRASP<Integer> {
 	@Override
 	public void updateCL() {
 
-		// do nothing since all elements off the solution are viable candidates.
+		// TODO check for weights!
 
 	}
 
@@ -150,8 +150,7 @@ public class GRASP_QBF extends AbstractGRASP<Integer> {
 					CL.add(bestCandOut);
 				}
 				if (bestCandIn != null ) {
-					if (ObjFunction.canBeAdded(bestCandIn, sol))
-						sol.add(bestCandIn);
+					sol.add(bestCandIn);
 					CL.remove(bestCandIn);
 				}
 				ObjFunction.evaluate(sol);
