@@ -78,8 +78,14 @@ public class GRASP_QBF extends AbstractGRASP<Integer> {
 	 */
 	@Override
 	public void updateCL() {
-
-		// TODO check for weights!
+		
+		ArrayList<Integer> toBeRemoved = new ArrayList<Integer>();
+		for (Integer cand : CL)
+			if (!ObjFunction.canBeAdded(cand, sol))
+				toBeRemoved.add(cand);
+		
+		for (Integer remo : toBeRemoved)
+			CL.remove(remo);
 
 	}
 
@@ -166,7 +172,7 @@ public class GRASP_QBF extends AbstractGRASP<Integer> {
 	public static void main(String[] args) throws IOException {
 
 		long startTime = System.currentTimeMillis();
-		GRASP_QBF grasp = new GRASP_QBF(0.05, 1000, "instances/kqbf/kqbf040");
+		GRASP_QBF grasp = new GRASP_QBF(0.05, 1000, "instances/kqbf/kqbf200");
 		Solution<Integer> bestSol = grasp.solve();
 		System.out.println("maxVal = " + bestSol);
 		long endTime   = System.currentTimeMillis();

@@ -304,6 +304,7 @@ public class QBF implements Evaluator<Integer> {
 
 		stok.nextToken();
 		Integer _size = (int) stok.nval;
+		stok.nextToken();
 		
 		W = (int) stok.nval;
 		weights = new Integer[_size];
