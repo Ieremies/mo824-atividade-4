@@ -111,6 +111,76 @@ public class GRASP_QBF extends AbstractGRASP<Integer> {
 	 */
 	@Override
 	public Solution<Integer> localSearch() {
+		return localSearch_firstImproving(); 
+	}
+	
+	public Solution<Integer> localSearch_firstImproving() {
+
+		Boolean flag;
+		Integer choiceIn = 0, choiceOut = 0;
+
+		do {
+			flag = false;
+			updateCL();
+				
+			// Evaluate insertions
+			for (Integer candIn : CL) {
+				double deltaCost = ObjFunction.evaluateInsertionCost(candIn, sol);
+				if (deltaCost < 0) {
+					choiceIn = candIn;
+					flag = true;
+					break;
+				}
+			}
+			if (flag) {
+				sol.add(choiceIn);
+				CL.remove(choiceIn);
+				ObjFunction.evaluate(sol);
+				continue;
+			}
+			
+			// Evaluate removals
+			for (Integer candOut : sol) {
+				double deltaCost = ObjFunction.evaluateRemovalCost(candOut, sol);
+				if (deltaCost < 0) {
+					choiceOut = candOut;
+					flag = true;
+					break;
+				}
+			}
+			if (flag) {
+				sol.remove(choiceOut);
+				CL.add(choiceOut);
+				ObjFunction.evaluate(sol);
+				continue;
+			}
+			
+			// Evaluate exchanges
+			for (Integer candIn : CL) {
+				for (Integer candOut : sol) {
+					double deltaCost = ObjFunction.evaluateExchangeCost(candIn, candOut, sol);
+					if (deltaCost < 0) {
+						choiceIn = candIn;
+						choiceOut = candOut;
+						flag = true;
+						break;
+					}
+				}
+			}
+			if (flag) {
+				sol.add(choiceIn);
+				CL.remove(choiceIn);
+				sol.remove(choiceOut);
+				CL.add(choiceOut);
+				ObjFunction.evaluate(sol);
+			}
+			
+		} while (flag);
+
+		return null;
+	}
+		
+	public Solution<Integer> localSearch_bestImproving() {
 
 		Double minDeltaCost;
 		Integer bestCandIn = null, bestCandOut = null;
