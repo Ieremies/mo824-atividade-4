@@ -183,7 +183,7 @@ public abstract class AbstractGRASP<E> {
 			}
 
 			/* Choose a candidate randomly from the RCL */
-			if (RCL.size() == 0) // FIXME essa situação nunca deve acontecer!
+			if (RCL.size() == 0) // FIXME essa situaï¿½ï¿½o nunca deve acontecer!
 				break;
 			int rndIndex = rng.nextInt(RCL.size());
 			E inCand = RCL.get(rndIndex);
@@ -242,7 +242,7 @@ public abstract class AbstractGRASP<E> {
 			}
 
 			/* Choose a candidate randomly from the RCL */
-			if (RCL.size() == 0) // FIXME essa situação nunca deve acontecer!
+			if (RCL.size() == 0) // FIXME essa situaï¿½ï¿½o nunca deve acontecer!
 				break;
 			int rndIndex = rng.nextInt(RCL.size());
 			E inCand = RCL.get(rndIndex);
@@ -265,6 +265,7 @@ public abstract class AbstractGRASP<E> {
 	 */
 	public Solution<E> solve() {
 
+		long startTime = System.currentTimeMillis();
 		bestSol = createEmptySol();
 		for (int i = 0; i < iterations; i++) {
 			constructiveHeuristic();
@@ -274,6 +275,9 @@ public abstract class AbstractGRASP<E> {
 				if (verbose)
 					System.out.println("(Iter. " + i + ") BestSol = " + bestSol);
 			}
+			
+			if ( System.currentTimeMillis() - startTime > 30 * 60000)
+				break;
 		}
 
 		return bestSol;
