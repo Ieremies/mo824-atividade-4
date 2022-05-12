@@ -92,7 +92,7 @@ public class QBF implements Evaluator<Integer> {
 	public Integer getDomainSize() {
 		return size;
 	}
-	
+
 	/**
 	 * {@inheritDoc} In the case of a QBF, the evaluation correspond to
 	 * computing a matrix multiplication x'.A.x. A better way to evaluate this

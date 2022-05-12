@@ -49,9 +49,8 @@ public class GRASP_QBF extends AbstractGRASP<Integer> {
 		ArrayList<Integer> _CL = new ArrayList<Integer>();
 		for (int i = 0; i < ObjFunction.getDomainSize(); i++) {
 			Integer cand = i;
-			if (sol == null || ObjFunction.canBeAdded(i, sol)) {
+			if (sol == null || ObjFunction.canBeAdded(i, sol))
 				_CL.add(cand);
-			}
 		}
 
 		return _CL;
